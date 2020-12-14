@@ -1,21 +1,22 @@
 \chapter{Kapitel III - NoSQL - Ausgewählte Systeme Unboxed}
 \setcounter{section}{7}
 \section{ArangoDB}
-ArangoDB ist gehört zu den \ac{NoSQL} Datenbanken. Die Datenbank ist besonders bekannt für ihr Multi-Model. Multi-Modell bedeutet, dass eine \ac{DBS} mehrere Datenmodelle besitzt. Welche diese sind und wie ArangoDB funktioniert und aufgebaut ist, wird in diesen Kapitel gezeigt und erklärt.
+ArangoDB ist gehört zu den \ac{NoSQL} Datenbanken. Die Datenbank ist besonders bekannt für ihr Multi-Modell. Multi-Modell bedeutet, dass ein \ac{DBS} mehrere Datenmodelle besitzt. Welche diese sind und wie ArangoDB funktioniert und aufgebaut ist, wird in diesen Kapitel gezeigt und erklärt.
 \subsection{Anwendungsumfeld}
-In vielen Projekten steht am Anfang nicht fest welches \ac{DBS} das beste für sie sei. Jede Datenbank bringt seine eigenen Vorteile und Nachteile mit sich. Und genau an dieser Stelle spielt ArangoDB eine wichtige Rolle. 
-
-Durch sein 'natives' Multi-Modell ermöglicht es Vor- und Nachteil von Datenbankmodell auszugleichen. Dadurch wird ArangoDB zur 'Multi-Purpose-Datenbank' mit einem soliden Dokumenten Basismodell \citep{jaxenter01}. Bei einer agilen Vorgehensweise mit stetig wechselenden Anforderungen, kann es Vorteilhaft sein ein ebenso flexibles \ac{DBS} wie ArangoDB zu haben. 
+In vielen Softwareprojekten steht am Anfang nicht fest welches \ac{DBS} das beste für sie sei. Jede Datenbank bringt seine eigenen Vorteile und Nachteile mit sich. Und genau an dieser Stelle spielt ArangoDB eine wichtige Rolle.
+Durch sein ’natives’ Multi-Modell ermöglicht es die Vor- und Nachteile von Datenbankmodellen auszugleichen. Dadurch wird ArangoDB zur ’Multi-Purpose-Datenbank’ mit einem dokumentenbasierten Basismodell\cite{jaxenter01}. Es kann bei einer agilen Vorgehensweise mit stetig wechselnden Anforderungen sehr Vorteilhaft sein, ein ebenso flexibles DBS wie ArangoDB zu verwenden.
 
  \subsection{Technologische Aspekte}
-Wie schon im Kapitel davor angeschnitten, ist der Kern der ArangoDB sein vielseitiges Multi-Modell. Insgesamt besteht dies aus drei verschiedenen Datenbank-Modellen, welche zu einem vereint und je nach Anwendungsfall 
-eingesetzt werden kann.
-Das Multi-Modell besteht aus diesen vereineten Datenbankmodellen:
-\paragraph{Dokumentenbasiertes Modell} Das dokumentbasierte Modell dient als solide Basis für das \ac{DBS}. Im Modell wird \ac{JSON} als Speicherformat verwendet. Durch seine Semi-Struktur und hirarschichen Aufbau ist  ein dokumentenbasiertes Modell perfekt für viele Anwendungsfälle\cite{AWS_doc}.  Außerdem bietet es eine gute Grundlage für die beiden anderen Datenmodelle.
-\paragraph{Graphbasiertes Modell} Ein Graphmodell bietet die Möglichkeit Beziehungen zwischen Objekten im dokumentenbasierten Modell abzubilden. Außerdem hilft das graphbasierte Modell Datenstrukturen leichter zu verstehen und JOINs schneller abzubilden \cite{AWS_graph}.Des Weiteren können sogennante Super-Nodes identifiziert und anschließen optimiert werden, damit Zugriffe auf diese Objekte performanter ist.
-\paragraph{Key-Value-Modell} Das Key-Value-Modell ist dafür optimiert Objekte zu einen gewissen Schlüssel schell abzurufen. Anstatt lange Querys zu schreiben zu müssen, hilft das Key-Value-Modell optimiert auf diese Werte zuzugreifen. Der Vorteil hier ist, dass durch den geschaffenen Index die Datensätze gut partitioniert werden können. \cite{AWS_keyvalue}
+Der Kern der ArangoDB ist sein vielseitiges Multi-Modell, welches insgesamt aus drei verschiedenen Datenbank-Modellen besteht. Diese sind zu einem Modell vereint und können je nach Anwendungsfall eingesetzt werden. Das Multi-Modell besteht aus folgenden  vereinten Datenbankmodellen:
 
-Zusammenfassend kann man also sagen, dass ArangoDB durch die Kombination der drei Datenbankmodellen ein perfektes Modell für fast jeden Anwendungsfall parat hat. Jedoch hat natürlich auch die Vereinigung der Modelle Nachteile. ArangoDB bietet zwar dem Nutzer das passende Modell für seinen Anwendungsfall, jedoch hat die Datenbank keine Chance gegenüber der Performance von Datenbanken, die diese Modelle nativ implementieren \cite{ADB_benchmark}.
+\paragraph{Das dokumentbasierte Modell} dient als solide Basis für das \ac{DBS}. Im Modell wird \ac{JSON} als Speicherformat verwendet. Durch seine Semi-Struktur und hirarschichen Aufbau ist  ein dokumentenbasiertes Modell ideal für viele Anwendungsfälle geeignet\cite{AWS_doc}.  Außerdem bietet es eine gute Grundlage für die beiden anderen Datenmodelle.
+
+\paragraph{Das graphbasiertes Modell} bietet die Möglichkeit Beziehungen zwischen Objekten im dokumentenbasierten Modell abzubilden. Außerdem hilft das graphbasierte Modell Datenstrukturen leichter zu verstehen und JOINs schneller aufzulösen \cite{AWS_graph}. Des Weiteren können sogennante Super-Nodes identifiziert und anschließen optimiert werden, damit der Zugriff auf diese Objekte performanter ist.
+
+\paragraph{Das Key-Value-Modell} ist dafür optimiert Objekte zu einen gewissen Schlüssel schell abzurufen.  Anstatt lange Querys schreiben zu müssen, hilft das Key-Value-Modell optimiert auf diese Werte zuzugreifen. Optimal partitionierte Datensätze durch den geschaffenen Index sind dabei ein großer Vorteil. \cite{AWS_keyvalue}
+
+Zusammenfassend kann man sagen, dass ArangoDB durch die Kombination der drei Datenbankmodellen ein perfektes Modell für fast jeden Anwendungsfall vorweist. Allerdings hat die Vereinigung der Modelle auch Nachteile. ArangoDB bietet zwar dem Nutzer das passende Modell für seinen Anwendungsfall, hat jedoch keine Chance gegenüber der Performance von Datenbanken, die diese Modelle nativ implementieren \cite{ADB_benchmark}.
+
 \subsubsection{Systemarchitektur}
 ArangoDB im Clusterbetrieb erfüllt das "CP" des CAP-Theorems \cite{CAP}. Mit seinem Prinzip des 'Master/Master'-Ansatzes ermöglicht es eine hohe Partitionsmöglichkeit und liefert wenn immer die aktuellsten Daten zurück. Ermöglicht wird dies durch die Bereitstellung der drei verschiedenen Komponenten im Clusterbetrieb \cite{ADB_clusterarch}:
 \paragraph{Agententen} 
