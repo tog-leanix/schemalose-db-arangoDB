@@ -1,5 +1,4 @@
 \chapter{Kapitel III - NoSQL - Ausgewählte Systeme Unboxed}
-\setcounter{section}{7}
 \section{ArangoDB}
 ArangoDB ist gehört zu den \ac{NoSQL} Datenbanken. Die Datenbank ist besonders bekannt für ihr Multi-Modell. Multi-Modell bedeutet, dass ein \ac{DBS} mehrere Datenmodelle besitzt. Welche diese sind und wie ArangoDB funktioniert und aufgebaut ist, wird in diesem Kapitel erörtert.
 \subsection{Anwendungsumfeld}
@@ -42,9 +41,6 @@ Eine weitere Möglichkeit ist das mitgelieferte \ac{CLI}-Tool 'arangosh'. Ein ei
 
 Als letzte Zugriffsmöglichkeit bietet ArangoDB ein \ac{API}. Damit können zum Beispiel Collections, Datenbanken und Kanten über \ac{HTTP} abgefragt werden. \cite{ADB_api} Diese \ac{API} ist erweiterbar um sogennante Foxx-Microservices. Die Microservices werden in das Datenbanksystem mittels Javascript deployed. Foxx-Microservices dienen dem Nutzer der Datenbank, komplexere Berechnungen oder Abfragen datenbanknahe und optimiert auszuführen. \cite{ADB_foxx}
 
-\subsubsection{Physische Strukturen}
-\subsubsection{Transaktionsunterstützung}
-
 \subsection{Datenbankentwicklung}
 \subsubsection{Systeminstallation}
 Um die ArangoDB auf einen Linux Server zu installieren folgt man den Anweisungen auf der Webseite von ArangoDB.
@@ -83,44 +79,42 @@ sudo arangodb \
 
 
 \subsubsection{Datenmodellierung und Beispielschema}
+Um den Use Case für den Graphen so verständlich wie möglich zu gestalten, haben wir uns ein einfaches Schema entschieden. Es besteht aus genau zwei Entitäten. Eine Collection, welche Autodaten enthält und eine weitere Collection, die die Kanten für unseren Graphen enthält. Diese Kanten zeigen von einer Auto-Entität auf eine andere Auto-Entität.
 \begin{figure}[htbp] 
   	\centering
-     \includegraphics[width=1\textwidth, height=500pt, draft]{./images/schema.png}
+     \includegraphics[width=.7\textwidth]{./images/Schema.png}
  	\caption{Implementiertes Beispielschema}
   \label{fig:DataSchema}
 \end{figure}
 \subsubsection{Import der Beispieldaten}
-Daten A:
-\lstinputlisting[]{./json/test.json}
-Daten B:
-\lstinputlisting[]{./json/test.json}
-Daten C:
-\lstinputlisting[]{./json/test.json}
-Daten D:
-\lstinputlisting[]{./json/test.json}
+Über das Webinterface der Datenbank lassen sich für jede Collection über ein \ac{JSON}-Import Daten importieren.
+Ausschnitt von Car Beispieldaten:
+\lstinputlisting[linerange={1-9}]{./json/cars.json}
+Ausschnitt von Event Bespieldaten:
+\lstinputlisting[linerange={1-9}]{./json/events.json}
 \subsubsection{AdHoc-Anfragen}
 
 \begin{figure}[htbp] 
   	\centering
-     \includegraphics[width=0.7\textwidth, height=200pt, draft]{./images/create.png}
+     \includegraphics[width=0.9\textwidth]{./images/create.png}
  	\caption{CREATE von Dokument im Schema}
   \label{fig:DataSchema}
 \end{figure}
 \begin{figure}[htbp] 
   	\centering
-     \includegraphics[width=0.7\textwidth, height=200pt, draft]{./images/select.png}
+     \includegraphics[width=0.9\textwidth]{./images/select.png}
  	\caption{SELECT vom erstellten Dokument}
   \label{fig:DataSchema}
 \end{figure}
 \begin{figure}[htbp] 
   	\centering
-     \includegraphics[width=0.7\textwidth, height=200pt, draft]{./images/update.png}
+     \includegraphics[width=0.9\textwidth]{./images/update.png}
  	\caption{UPDATE vom erstellten Dokument}
   \label{fig:DataSchema}
 \end{figure}
 \begin{figure}[htbp] 
   	\centering
-     \includegraphics[width=0.7\textwidth, height=200pt, draft]{./images/delete.png}
+     \includegraphics[width=0.9\textwidth]{./images/delete.png}
  	\caption{DELETE vom erstellten Dokument}
   \label{fig:DataSchema}
 \end{figure}

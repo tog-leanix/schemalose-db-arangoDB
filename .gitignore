@@ -5,7 +5,6 @@ syntax: glob
 .project
 .texlipse
 tmp/
-
 *.aux
 *.bbl
 *.blg
