@@ -1,6 +1,13 @@
 \subsection{Umsetzung in FOXX}
 \subsubsection{Datenbankzugriff}
+FOXX ist ein Framework, welches von ArangoDB angebot wird. Es dient dazu Microservices direkt in der Datenbank zu implementieren. Daher sind die Datenzugriffe sehr Nahe an der Datenbank und besonders performant. Um Beispielsweise auf die Auto-Datenbankcollection zuzugreifen, schreibt man bei FOXX folgenden Code:
+\lstinputlisting[linerange={5-5}]{./src/index.js}
+Diese Collection wird in den folgenden Szenarien gebraucht, um Abfragen zu tätigen.
 \subsubsection{Schnittstelle nach Außen}
+Als Microservice bietet FOXX eine HTTP-Schnittstelle, um den Zugriff von anderen Systemen zu ermöglichen. Diese Schnittstelle wurde von dem ArangoDB-Team bereitgestellt und wird in JavaScript implementiert. Es können zwar NodeJS Pakete benutzt werden, aber es werden nicht alle unterstützt, da zum Beispiel der Zugriff aufs Dateisystem verweigert wird.
 \subsubsection{Anwendungsszenario 1}
+\lstinputlisting[linerange={15-30}]{./src/index.js}
 \subsubsection{Anwendungsszenario 2}
+\lstinputlisting[linerange={32-60}]{./src/index.js}
 \subsubsection{Anwendungsszenario 3}
+\lstinputlisting[linerange={62-87}]{./src/index.js}
