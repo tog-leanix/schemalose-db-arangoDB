@@ -6,8 +6,11 @@ Diese Collection wird in den folgenden Szenarien gebraucht, um Abfragen zu täti
 \subsubsection{Schnittstelle nach Außen}
 Als Microservice bietet FOXX eine HTTP-Schnittstelle, um den Zugriff von anderen Systemen zu ermöglichen. Diese Schnittstelle wurde von dem ArangoDB-Team bereitgestellt und wird in JavaScript implementiert. Es können zwar NodeJS Pakete benutzt werden, aber es werden nicht alle unterstützt, da zum Beispiel der Zugriff aufs Dateisystem verweigert wird.
 \subsubsection{Anwendungsszenario 1}
-\lstinputlisting[linerange={15-30}]{./src/index.js}
+Für Szenario 1 wird im FOXX-Framework ein Request angeboten. Um aus dem URI-Parameter \texttt{:color} ein Array von Autos zu bekommen, bietet FOXX die Möglichkeit einen Templatestring \texttt{query``} zu bauen. In diesem String wird die \ac{AQL} platziert. Das Ergebnis des String muss am Ende durch \texttt{.toArray()} formatiert werden. Bei jedem Szenario wird die Zeit gemessen, wie lange die Datenabfrage an der Datenbank gebraucht hat. Abschließend wird ein Response an den Anfragenden mit \texttt{res.json()} als \ac{JSON} zurückgegeben.
+\lstinputlisting[linerange={15-30}, numbers=left]{./src/index.js}
 \subsubsection{Anwendungsszenario 2}
-\lstinputlisting[linerange={32-60}]{./src/index.js}
+Um den Key-Value-Store von ArangoDB zu testen, wurde in FOXX zwei verschiedene Abfragemethoden von einzelenen Autos getestet. Im ersten Teil (Zeile 5-11) wird eine Abfrage auf das Dokumentenmodell mit \ac{AQL}gemacht. Im zweiten Teil (Zeile 13-15) wird die Key-Value-Funktionalität von ArangoDB benutzt.\newline Mit \texttt{carsCollection.document(id)} wird ein einzelenes Dokument direkt abgefragt. Die Zeitmessungen haben ergeben, dass Variante zwei doppelt so schnell ist wie Variante eins.
+\lstinputlisting[linerange={32-60}, numbers=left]{./src/index.js}
 \subsubsection{Anwendungsszenario 3}
-\lstinputlisting[linerange={62-87}]{./src/index.js}
+Im dritten Szenario wird benutzt FOXX wieder den \texttt{query} Templatestring um eine komplexere Abfrage auszuführen. Hierbei werden zunächst alle IDs der Autos mit einen gewissen Modell herausgesucht (Zeile 7-11). Diese IDs werden anschließend benutzt, um in den Events nach den "getroffenen" Autos zu suchen. Abschließend werden die gefundenen Autos nach ihrem Modell gruppiert und gezählt (Zeile 16). Alles wird als \ac{JSON} mit der Zeitmessung an den Abfragenden zurückgegeben.
+\lstinputlisting[linerange={62-87}, numbers=left]{./src/index.js}
