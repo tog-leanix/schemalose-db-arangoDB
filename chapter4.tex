@@ -11,5 +11,27 @@ Das dritte Szenario testet das Graph Modell von ArangoDB. Hierfür wollen wir in
 \input{chapter4_java}
 \input{chapter4_foxx}
 \subsection{Anwendung und Test}
-Screenshots Frontend 
+Um die Implementierungen der Schnittstellen zur ArangoDB zu testen, werden die beiden Webservices (Java und FOXX) abgefragt. Das Frontend kann unter folgenden Link im Cluster erreicht werden: \texttt{http://10.20.110.61/team38/sdb-foxx-service/} \newline
+Um zufällige Schwankungen abzufangen, werden bei jeden Szenario mehrere Requests gemacht und ein Durchschnittswert ermittelt. Die Tests der Anwendungsszenarien werden mit jeweils 100 Anfragen getestet. Daraus ergeben sich dann folgende Ergebnisse:
+\begin{figure}[htbp] 
+  	\centering
+     \includegraphics[width=1\textwidth]{./images/UseCase1.png}
+ 	\caption{Anwendungsszenario 1 Ergebnisse}
+  \label{fig:DataSchema}
+\end{figure}
+\begin{figure}[htbp] 
+  	\centering
+     \includegraphics[width=1\textwidth]{./images/UseCase2.png}
+ 	\caption{Anwendungsszenario 2 Ergebnisse}
+  \label{fig:DataSchema}
+\end{figure}
+\begin{figure}[htbp] 
+  	\centering
+     \includegraphics[width=1\textwidth]{./images/UseCase3.png}
+ 	\caption{Anwendungsszenario 3 Ergebnisse}
+  \label{fig:DataSchema}
+\end{figure}
 \subsection{Fazit}
+Bei allen Szenarien lässt sich erkennen, dass FOXX einen schelleren Zugriff auf die Datenbank hat als Java. Erklären lässt sich dies bei Szenario 1 und 2 durch die Latenz der Übertragung zwischen Master-Node (dort läuft Java) und Node 4 (ArangoDB-Datenbank-Koordinator). \newline
+Bei Anwendungsszenario 3 fällt auf, dass der Unterschied zwischen FOXX und Java sehr groß ist. Jedoch lässt sich der Unterschied nicht mit der Latenz des Zugriffs erklären. Man kann also davon ausgehen, dass FOXX schneller komplexe Abfragen umsetzen kann. \newline
+Daraus lässt schließen, dass nicht nur die Latenz zwischen den Servern bei Szenario 1 und 2 den Unterschied gemachten haben, sondern auch die Zugriffsschnittstelle der beiden Anwendungen. Man kann also sagen, dass die datenbanknahe Implementierung der FOXX-Microservices einen großen Vorteil bei der Abfragegeschwindigkeit bringen.
