@@ -3,36 +3,111 @@
 Der Zugriff auf unsere Datenbank über Java wurde mit Springboot realisiert. Spring Boot ist ein Framework, das die Entwicklung von Spring-basierten Anwendungen erleichtert, indem es Werkzeuge zur Verfügung stellt, um eine vollständig in sich geschlossene, in Jars/Wars verpackte Anwendung zu erstellen. Wir verwenden Maven, ein mächtiges Projektmanagement-Tool, das auf  POM (Project Object Model) basiert, um einen ArangoDB-Starter in unser Projekt SpringBoot zu integrieren. Maven wird im Allgemeinen für den Projektaufbau, die Abhängigkeiten(dependency) und die Dokumentation verwendet.
 
 Um sich schließlich mit ArangoDB zu verbinden, wird die gesamte notwendige Konfiguration von ArangoDB in eine Klasse verpackt, in der eine Verbindung zur ArangoDB-Datenbank hergestellt wird. Um sich schließlich mit ArangoDB zu verbinden, wird die gesamte notwendige Konfiguration von ArangoDB in eine Klasse verpackt, in der eine Verbindung zur ArangoDB-Datenbank hergestellt wird. Für die Konfiguration benötigen wird den Host ( 10.20.110.48 ), den Port ( 8529 ), den Benutzer (),  das Passwort () und den Namen der Datenbank.
+\\ \\
+\begin{lstlisting}[numbers=left,language=c++, caption={Datenbank-Konfiguration}]
+@Configuration
+@EnableArangoRepositories(basePackages = { "hz.arangoDb.sldbVorlesungProjekt" })
+public class ArangoDBConfiguration extends AbstractArangoConfiguration {
+    /**
+     * Database url (server + port) & credentials configs
+     * @return
+     */
+    @Override
+    public ArangoDB.Builder arango() {
+        ArangoDB.Builder arango = new ArangoDB.Builder()
+                .host("10.20.110.48", 8529)
+                .user("")
+                .password("");
+        return arango;
+    }
 
-\begin{center}
-\includegraphics[scale=.4]{images/dbConfig}
-\captionof{figure}{Datenbank-Konfiguration}
-\end{center}
+    /**
+     * Database name
+     * @return
+     */
+    @Override
+    public String database() {
+       // return "arangoDBDemo";
+        return "police_register";
+    }
+}
+\end{lstlisting}
 
 .\subsubsection{Schnittstelle nach Außen}
 SpringBoot bietet auch die Möglichkeit, eine REST-API zu implementieren und diese über verschiedene HTTP-Methoden verfügbar zu machen. Um einen Controller auf SpringBoot als REST-Schnittstelle zu definieren, fügen Sie einfach die Annotation @RestController hinzu. Danach wird  in jeder Methode des Controllers auch die Annotation @GetMapping , @PostMapping verwenden, um zu definieren, über welche HTTP-Methode diese Ressource exponiert wird.
 \subsubsection{Anwendungsszenario 1}
 
-für Anwendungsszenario 1 wurde eine annotierte @RestController-Klasse erstellt, die eine Methode namens GetCarByColor(String carID) enthält. Diese Methode ist ebenfalls mit @GetMapping annotiert, was den Zugriff auf die Ressource über die HTTP-GET-Methode ermöglicht. Diese Methode gibt als Ressource ein Car-Objekt in Form von Json zurück. Um diese Ressourcen zu erhalten, sendet Java eine AQL-Abfrage mit der Car-Color des zu suchenden Autos an die ArangoDB-Datenbank. ArangoDB wiederum sucht das Auto und gibt das Ergebnis des gefundenen Autos zurück. 
+für Anwendungsszenario 1 wurde eine annotierte @RestController-Klasse erstellt, die eine Methode namens GetCarByColor(String carID) enthält. Diese Methode ist ebenfalls mit @GetMapping annotiert, was den Zugriff auf die Ressource über die HTTP-GET-Methode ermöglicht. Diese Methode gibt als Ressource ein Car-Objekt in Form von Json zurück. Um diese Ressourcen zu erhalten, sendet Java eine AQL-Abfrage mit der Car-Color des zu suchenden Autos an die ArangoDB-Datenbank. ArangoDB wiederum sucht das Auto und gibt das Ergebnis des gefundenen Autos zurück. \\
+\begin{lstlisting}[numbers=left,language=c++, caption={Auto nach Farbe}]
+    @GetMapping("cars/{color}")
+    public CarsPayload getCarsByColor(@PathVariable("color") String color){
+        long time = 0;
+        List<Car> allByColor;
+        CarsPayload carsPayload = new CarsPayload();
+        try {
+            time = System.currentTimeMillis();
+            allByColor = carRepository.findAllByColor(color);
+        } finally {
+            time = System.currentTimeMillis() - time;
+            carsPayload.setTime(time);
+        }
+        carsPayload.setCars(allByColor);
+        return carsPayload;
+    }
+\end{lstlisting}
 
-\begin{center}
-\includegraphics[scale=.4]{images/carByColor}
-\captionof{figure}{Code: Auto über Color abfragen}
-\end{center}
 
 \subsubsection{Anwendungsszenario 2}
-Analog zum vorherigen Anwendungsszenario 1 wurde eine Methode getCarById(String car-Id) mit der Annotation @GetMapping erstellt. Diese Methode sendet eine AQL-Anfrage an die Datenbank und gibt ein Objekt Car zurück.
-
-\begin{center}
-\includegraphics[scale=.4]{images/carById}
-\captionof{figure}{Code: Auto über ID abfragen}
-\end{center}
+Analog zum vorherigen Anwendungsszenario 1 wurde eine Methode getCarById(String car-Id) mit der Annotation @GetMapping erstellt. Diese Methode sendet eine AQL-Anfrage an die Datenbank und gibt ein Objekt Car zurück. \\
+\begin{lstlisting}[numbers=left,language=c++, caption={Auto nach ID}]
+    @GetMapping("/car/{id}")
+    public CarPayload getCarById(@PathVariable("id") String id){
+        CarPayload carPayload = new CarPayload();
+        Optional<Car> carByID;
+        long time = 0;
+        try {
+            time = System.currentTimeMillis();
+            carByID = carRepository.findById("cars/"+id);
+        } finally {
+            time = System.currentTimeMillis() - time;
+            carPayload.setTime(time);
+        }
+        if (carByID.isPresent()){
+            Car car = carByID.get();
+            carPayload.setYear(car.getYear());
+            carPayload.setModel(car.getModel());
+            carPayload.setId(car.getId());
+            carPayload.setColor(car.getColor());
+            return carPayload;
+        }
+        return null;
+    }
+\end{lstlisting}
 
 \subsubsection{Anwendungsszenario 3}
 
-für das dritte Anwendungsszenario geht es darum, eine statistik über die verschiedenen Modelle von Autos zu erstellen, die üblicherweise kollidieren. die Implementierung dieser Methode erfolgt ebenfalls wie oben beschrieben. auch diese Methode wird mit @GetMapping annotiert.
-
-\begin{center}
-\includegraphics[scale=.4]{images/carModel}
-\captionof{figure}{Suche im Graph}
-\end{center}
+für das dritte Anwendungsszenario geht es darum, eine statistik über die verschiedenen Modelle von Autos zu erstellen, die üblicherweise kollidieren. die Implementierung dieser Methode erfolgt ebenfalls wie oben beschrieben. auch diese Methode wird mit @GetMapping annotiert.\\
+\begin{lstlisting}[numbers=left,language=c++, caption={Suche im Graph}]
+    @GetMapping("/car/{id}")
+    public CarPayload getCarById(@PathVariable("id") String id){
+        CarPayload carPayload = new CarPayload();
+        Optional<Car> carByID;
+        long time = 0;
+        try {
+            time = System.currentTimeMillis();
+            carByID = carRepository.findById("cars/"+id);
+        } finally {
+            time = System.currentTimeMillis() - time;
+            carPayload.setTime(time);
+        }
+        if (carByID.isPresent()){
+            Car car = carByID.get();
+            carPayload.setYear(car.getYear());
+            carPayload.setModel(car.getModel());
+            carPayload.setId(car.getId());
+            carPayload.setColor(car.getColor());
+            return carPayload;
+        }
+        return null;
+    }
+\end{lstlisting}
