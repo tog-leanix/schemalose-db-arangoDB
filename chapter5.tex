@@ -1,34 +1,7 @@
 \chapter{Kapitel V - Fazit}
 \section{ArangoDB}
+\input{5.8.1}
+\input{5.8.2}
+\input{5.8.3}
+\input{5.8.4}
 
-\subsection{Zusammenfassung}
-In unserem Experiment haben wir den Vergleich zwischen zwei verschiedenen Zugriffsschnittstellen verglichen. Dieser Vergleich kann bei der Entscheidung von Produktivsystemen helfen, die richtige Schnittstelle zu benutzen. 
-Unser Ziel war bei den Multimodell-Möglichkeiten, die ArangoDB bietet, die Performance der jeweiligen Zugriffe zu messen. 
-
-Unsere Tests haben ergeben, dass es keinen Unterschied bei simplen Abfragen eine gängiges Framework wie SpringBoot zuverwenden oder das FOXX Framework von dem ArangoDB-Team. Es ist also nicht notwendig sich das FOXX Framework anzueignen, um simple Szenarien abzubilden.
-
-Wo es hingen schon Sinn macht auf das ArangoDB-Team-Framework zurückzugreifen, ist bei komplexeren Queries. Eine Abfrage über mehrere Collections oder Gruppierung kann durch das Framework sehr wohl optimiert werden. Und genau bei dieser Art von Szenarien sehe ich den Vorteil des FOXX Frameworks. Es arbeitet sehr Datenbanknahe und kann dadurch die Vorteile des Multimodells sehr gut nutzen.
-\subsection{Pros}
-\begin{itemize}
-\item Web-Interface von ArangoDB sehr gut strukturiert und bietet viele Möglichkeiten eine Datenbank zu erkunden
-\item Die eigene Abfragesprache \ac{AQL} ermöglicht dem Benutzer komplizierte Abfragen
-\item Das Multimodell der Datenbank hilft bei der Optimierung von Abfragen der Daten
-\item ArangoDB bietet für jedes Szenario passende ZUgriffsmöglichkeit (Web, REST, Treiber, uvm.)
-\item Dokumentation für die Einbindung der Datenbank mit SpringBoot sehr ausführlich
-\item Clusterinstallation mit dem ArangoDB Starter sehr einfach
-\end{itemize}
-\subsection{Cons}
-\begin{itemize}
-\item \ac{AQL}s Konzept und Syntax ist anfangs sehr schwer zu verstehen
-\item Es gibt viele Möglichkeiten die Datenbank zu installieren, jdeoch wir der simplste Weg (ArangoDB Starter) nicht direkt erwähnt
-\item Unübersichtliches \ac{CLI}-Tool für das FOXX Framework. Es ist sehr kompliziert hier einen einfachen Deployprozess mit dem Tool  durchzuführen
-\end{itemize}
-\subsection{Lessens learned}
-Aus dieser Arbeit haben wir folgende persönliche Erkenntnisse für uns gewinnen können:
-\begin{itemize}
-\item Ansatz und Geschichte hinter Graphql kennengelernt
-\item Die Einbindung einer Datenbank bei SpringBoot bleibt bei einer \ac{NoSQL} der gleiche Ansatz
-\item Verstehen eines Graphmodells bei einer Datenbank in Aktion
-\item Erste Datenbank-Cluster-Installation
-\item Der Ansatz von datenbanknahen Microservices ist ein sehr interessantes konzept
-\end{itemize}
