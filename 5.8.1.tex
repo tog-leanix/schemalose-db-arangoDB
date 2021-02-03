@@ -1,0 +1,8 @@
+
+\subsection{Zusammenfassung}
+In unserem Experiment haben wir den Vergleich zwischen zwei verschiedenen Zugriffsschnittstellen verglichen. Dieser Vergleich kann bei der Entscheidung von Produktivsystemen helfen, die richtige Schnittstelle zu benutzen. 
+Unser Ziel war bei den Multimodell-Möglichkeiten, die ArangoDB bietet, die Performance der jeweiligen Zugriffe zu messen. 
+
+Unsere Tests haben ergeben, dass es keinen Unterschied bei simplen Abfragen eine gängiges Framework wie SpringBoot zuverwenden oder das FOXX Framework von dem ArangoDB-Team. Es ist also nicht notwendig sich das FOXX Framework anzueignen, um simple Szenarien abzubilden.
+
+Wo es hingen schon Sinn macht auf das ArangoDB-Team-Framework zurückzugreifen, ist bei komplexeren Queries. Eine Abfrage über mehrere Collections oder Gruppierung kann durch das Framework sehr wohl optimiert werden. Und genau bei dieser Art von Szenarien sehe ich den Vorteil des FOXX Frameworks. Es arbeitet sehr Datenbanknahe und kann dadurch die Vorteile des Multimodells sehr gut nutzen.

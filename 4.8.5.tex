@@ -1,0 +1,9 @@
+
+\subsection{Fazit}
+Bei allen Szenarien lässt sich erkennen, dass FOXX einen schnelleren Zugriff auf die Datenbank hat als Java. Erklären lässt sich dies bei Szenario 1 und 2 durch die Latenz der Übertragung zwischen Master-Node (dort läuft Java) und Node 4 (ArangoDB-Datenbank-Koordinator).
+
+
+Bei Anwendungsszenario 3 fällt auf, dass der Unterschied zwischen FOXX und Java sehr groß ist. Jedoch lässt sich der Unterschied nicht mit der Latenz des Zugriffs erklären. Man kann also davon ausgehen, dass FOXX schneller komplexe Abfragen umsetzen kann.
+
+
+Daraus lässt schließen, dass nicht nur die Latenz zwischen den Servern bei Szenario 1 und 2 den Unterschied gemachten haben, sondern auch die Zugriffs Schnittstelle der beiden Anwendungen. Man kann also sagen, dass die datenbanknahe Implementierung der FOXX-Microservices einen großen Vorteil bei der Abfragegeschwindigkeit bringen.
