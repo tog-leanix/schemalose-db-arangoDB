@@ -1,17 +1,15 @@
 \subsection{Datenbankentwicklung}
 \subsubsection{Systeminstallation}
 Um die ArangoDB auf einen Linux Server zu installieren folgt man den Anweisungen auf der Webseite von ArangoDB.
-
+\lstsetconsole
 Als ersten Schritt muss ein Repository-Schlüssel dem Paket-Manager \texttt{apt} hinzugefügt werden.
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=bash, caption=Hinzufügen des Repository-Schlüssels für ArangoDB]
 curl -OL https://download.arangodb.com/arangodb37/DEBIAN/Release.key
 sudo apt-key add - < Release.key
 \end{lstlisting}
 Anschließend kann über den Paketmanager die Installation folgen:
-\begin{lstlisting}[language=bash]
-echo 
-	'deb https://download.arangodb.com/arangodb37/DEBIAN/ /' | 
-	sudo tee /etc/apt/sources.list.d/arangodb.list
+\begin{lstlisting}[language=bash, caption=Installieren von ArangoDB mit Package Manager]
+echo  'deb https://download.arangodb.com/arangodb37/DEBIAN/ /' | sudo tee /etc/apt/sources.list.d/arangodb.list
 sudo apt-get install apt-transport-https
 sudo apt-get update
 sudo apt-get install arangodb3=3.7.3-1
@@ -20,13 +18,13 @@ Nachdem die Installation abgeschlossen wurde, kann der automatisch gestartete Ar
 
 Um nun einen ArangoDB-Cluster zu starten, haben wir den ArangoDB Starter verwendet. Der Starter ist ein \ac{CLI}-Tool, welches über Parameter die Optionen eines Datenbankservers konfiguriert. 
 Für unseren Cluster haben wir für den Hauptserver (Node-4) folgende Konfiguration gewählt:
-\begin{lstlisting}[language=bash]
+\begin{lstlisting}[language=bash, caption=Starten des Hauptservers]
 sudo arangodb \
 --starter.data-dir=/data/team38 \
 --server.storage-engine=rocksdb
 \end{lstlisting}
 Alle weiteren Nodes wurden mit diesem Befehl mit dem Datenbankserver von Node-4 verbunden:
-\begin{lstlisting}[language=sh]
+\begin{lstlisting}[language=sh, caption=Zuscahlten der anderen Datenbankserver für Cluster]
 sudo arangodb \
 --starter.join c017-node4 \
 --starter.data-dir=/data/team38 \
@@ -44,33 +42,28 @@ Um den Use Case für den Graphen so verständlich wie möglich zu gestalten, hab
   \label{fig:DataSchema}
 \end{figure}
 \subsubsection{Import der Beispieldaten}
+\lstsetjavascript
 Über das Webinterface der Datenbank lassen sich für jede Collection über ein \ac{JSON}-Import Daten importieren.
 Ausschnitt von Car Beispieldaten:
 \lstinputlisting[linerange={1-9}, caption=Beispieldaten Auto, label=Beispieldaten Auto]{./json/cars.json}
 Ausschnitt von Event Beispieldaten:
 \lstinputlisting[linerange={1-9}, caption=Beispieldaten Event, label=Beispieldaten Event]{./json/events.json}
 \subsubsection{AdHoc-Anfragen}
-\begin{figure}[htbp] 
-  	\centering
-     \includegraphics[width=1\textwidth]{./images/8.create.png}
- 	\caption{CREATE von Dokument im Schema}
-  \label{fig:DataSchema}
-\end{figure}
-\begin{figure}[htbp] 
-  	\centering
-     \includegraphics[width=1\textwidth]{./images/8.select.png}
- 	\caption{SELECT vom erstellten Dokument}
-  \label{fig:DataSchema}
-\end{figure}
-\begin{figure}[htbp] 
-  	\centering
-     \includegraphics[width=1\textwidth]{./images/8.update.png}
- 	\caption{UPDATE vom erstellten Dokument}
-  \label{fig:DataSchema}
-\end{figure}
-\begin{figure}[htbp] 
-  	\centering
-     \includegraphics[width=1\textwidth]{./images/8.delete.png}
- 	\caption{DELETE vom erstellten Dokument}
-  \label{fig:DataSchema}
-\end{figure}
+\lstsetconsole
+\begin{lstlisting}[language=bash, caption=CREATE von Auto]
+INSERT {_key:"B-AB-123", color:"pink", year: 2009, model: "AUDI"} INTO cars
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash, caption=SELECT von Auto]
+FOR car IN cars
+	FITLER car._key="B-AB-123"
+	RETURN car
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash, caption=UPDATE von Auto]
+UPDATE "B-AB-123" WITH {color: "red"} IN cars
+\end{lstlisting}
+
+\begin{lstlisting}[language=bash, caption=DELETE von Auto]
+REMOVE  "B-AB-123" IN cars
+\end{lstlisting}
